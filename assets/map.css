@@ -1,3 +1,20 @@
 #map {
     height: 100vh;
+    margin-top: 3%;
 }
+
+#suivi {
+    margin-left : 10%;
+    margin-top : 10px;
+    width: 250px;
+    height: 100px;
+    border: 0.5rem solid;
+    border-color: blue;
+}
+#localise {
+   margin-left:44%;
+}
+
+#pesquet {
+    width: 80px;    
+  }
