@@ -16,7 +16,7 @@ Vue.createApp({
         return {
             long: 0,
             lat: 0,
-            message : 'je suis la',
+            message : 'Je suis la',
             
         }
     },
@@ -40,7 +40,7 @@ Vue.createApp({
                     console.log(orbite)
         // Insertion du marqueur  
                     L.marker([this.lat, this.long]).addTo(geo)
-                        .bindPopup('<img id="pesquet" src="assets/pesquet.jpeg"/><center><strong>Je suis la</strong></center>')
+                        .bindPopup('<img id="pesquet" src="assets/pesquet.jpeg"/><center><strong>'+ this.message +'</strong></center>')
                         .openPopup();
                         
                    
