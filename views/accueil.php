@@ -20,6 +20,12 @@
         <label for="suiviISS">&nbsp Zoomer sur l'ISS</label>
         <h6> longitude :  {{this.long}} | latitude {{this.lat}}</h6></center>
         </fieldset>
+      
+        <div id="zonetweet">
+          <center><legend>Zone de Tweet</legend></center>
+        <textarea id="textweet" v-model="text" ></textarea>
+        <button id="envoietweet" class="btn btn-success" >Envoyer</button>
+      </div>
       </div>
  
     <button type="button" class="btn btn-primary" id="localise" @Click="pointISS">Afficher Thomas Pesquet </button>

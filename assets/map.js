@@ -24,6 +24,7 @@ Vue.createApp({
     // Méthode récupérant les longitude et latitude depuis l'API 
 
         pointISS() {
+
             let button_affiche = document.getElementById('localise');
             button_affiche.style.visibility = 'hidden';
             setInterval(() =>
@@ -40,7 +41,7 @@ Vue.createApp({
                     console.log(orbite)
         // Insertion du marqueur  
                     L.marker([this.lat, this.long]).addTo(geo)
-                        .bindPopup('<img id="pesquet" src="assets/pesquet.jpeg"/><center><strong>'+ this.message +'</strong></center>')
+                        .bindPopup('<center><img id="pesquet" src="assets/pesquet.jpeg"/></center><center><strong>'+ this.message +'</strong></center>')
                         .openPopup();
                         
                    
