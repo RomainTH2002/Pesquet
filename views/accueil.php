@@ -17,8 +17,8 @@
         <fieldset>
         <center> <legend>Suivi de l'ISS</legend>
         <input type="checkbox" id="suiviISS" value="SuiviISS" />
-        <label for="suiviISS">Zoomer sur l'ISS</label></center>
-       
+        <label for="suiviISS">&nbsp Zoomer sur l'ISS</label>
+        <h6> longitude :  {{this.long}} | latitude {{this.lat}}</h6></center>
         </fieldset>
       </div>
  

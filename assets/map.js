@@ -9,13 +9,15 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 // Création du JSON et initialisation de l'url vers l'API ISS
 let geo = L.geoJSON().addTo(map);
 let url_api = 'http://api.open-notify.org/iss-now.json';
-
+let orbite = [];
 Vue.createApp({
     // Initialisation des variables de longitude et latitude
     data() {
         return {
             long: 0,
-            lat: 0
+            lat: 0,
+            message : 'je suis la',
+            
         }
     },
     methods: {
@@ -32,14 +34,15 @@ Vue.createApp({
                     let lat_iss = jason.iss_position.latitude;
                     this.long = long_iss;
                     this.lat = lat_iss;
-
+                    let coordonnees = [this.long,this.lat];
+                    orbite.push(coordonnees);
                     geo.clearLayers();
-                    console.log("longitude : ", this.long ," latitude : ", this.lat, ".");
+                    console.log(orbite)
         // Insertion du marqueur  
                     L.marker([this.lat, this.long]).addTo(geo)
-                        .bindPopup('<img id="pesquet" src="assets/pesquet.jpeg"/><center><strong>Je suis la</strong></center>')
+                        .bindPopup('<img id="pesquet" src="assets/pesquet.jpeg"/><center><strong>{{message}}</strong></center>')
                         .openPopup();
-
+                        
                    
                 })
                 , 4000);
