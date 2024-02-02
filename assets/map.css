@@ -1,7 +1,9 @@
 #map {
-    height: 100vh;
+    height: 70vh;
     margin-top: 3%;
+    width:80%;
 }
+
 
 #suivi {
     margin-left : 10%;

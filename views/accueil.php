@@ -11,7 +11,7 @@
 
     <div id="trouver">
     
-    <h1><center>Tweete comme pesquet</center></h1>
+   <center><h1>Tweete comme pesquet</h1></center>
     
       <div id="suivi">
         <fieldset>
@@ -23,14 +23,14 @@
       
         <div id="zonetweet">
           <center><legend>Zone de Tweet</legend></center>
-        <textarea id="textweet" v-model="text" ></textarea>
+        <textarea id="textweet" v-model="message" ></textarea>
         <button id="envoietweet" class="btn btn-success" >Envoyer</button>
       </div>
       </div>
  
     <button type="button" class="btn btn-primary" id="localise" @Click="pointISS">Afficher Thomas Pesquet </button>
     </div>
-    <div id="map"></div>
+    <center><div id="map"></div></center>
      
    
 

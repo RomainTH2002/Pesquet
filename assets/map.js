@@ -6,6 +6,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 15
 }).addTo(map);
 
+var satIcone = L.icon({
+    iconUrl: 'assets/sattelite-dish.png',
+    iconSize: [50, 50]
+});
+
 // Création du JSON et initialisation de l'url vers l'API ISS
 let geo = L.geoJSON().addTo(map);
 let url_api = 'http://api.open-notify.org/iss-now.json';
@@ -36,16 +41,22 @@ Vue.createApp({
                     this.long = long_iss;
                     this.lat = lat_iss;
                     let coordonnees = [this.long,this.lat];
+                    // traçage de l'orbite 
                     orbite.push(coordonnees);
                     geo.clearLayers();
                     console.log(orbite)
+                    // focus sur l'ISS
+                 //map.setView([this.long-500,this.lat], 3);
+                 
         // Insertion du marqueur  
-                    L.marker([this.lat, this.long]).addTo(geo)
+                    
+                    L.marker([this.lat, this.long] , {icon: satIcone}).addTo(geo)
                         .bindPopup('<center><img id="pesquet" src="assets/pesquet.jpeg"/></center><center><strong>'+ this.message +'</strong></center>')
                         .openPopup();
                         
                    
                 })
+        // Intervalle de 4 secondes
                 , 4000);
         }
     }
