@@ -14,7 +14,9 @@ var satIcone = L.icon({
 // Création du JSON et initialisation de l'url vers l'API ISS
 let geo = L.geoJSON().addTo(map);
 let url_api = 'http://api.open-notify.org/iss-now.json';
-let orbite = [];
+let url_orbit = 'https://dev.iamvdo.me/orbit.php';
+let orbite_parcourue = [];
+let orbite_future = [];
 Vue.createApp({
     // Initialisation des variables de longitude et latitude
     data() {
@@ -32,6 +34,9 @@ Vue.createApp({
 
             let button_affiche = document.getElementById('localise');
             button_affiche.style.visibility = 'hidden';
+            
+                
+       
             setInterval(() =>
             fetch(url_api)
                 .then(response => response.json())
@@ -40,24 +45,35 @@ Vue.createApp({
                     let lat_iss = jason.iss_position.latitude;
                     this.long = long_iss;
                     this.lat = lat_iss;
-                    let coordonnees = [this.long,this.lat];
+                    let coordonnees = [this.lat, this.long];
                     // traçage de l'orbite 
-                    orbite.push(coordonnees);
+                    orbite_parcourue.push(coordonnees);
                     geo.clearLayers();
-                    console.log(orbite)
                     // focus sur l'ISS
                  //map.setView([this.long-500,this.lat], 3);
-                 
+                    fetch(url_orbit)
+                    .then(response => response.json())
+                    .then(jason => {
+                        jason.forEach(point_orb => {
+
+                            orbite_future.push([point_orb.lat, point_orb.lng]);
+                        });
+                        
+                           
+                            
+                        })
         // Insertion du marqueur  
                     
                     L.marker([this.lat, this.long] , {icon: satIcone}).addTo(geo)
                         .bindPopup('<center><img id="pesquet" src="assets/pesquet.jpeg"/></center><center><strong>'+ this.message +'</strong></center>')
                         .openPopup();
-                        
+                    L.polyline(orbite_future, {color: 'red',width: 4}).addTo(geo);
+                    L.polyline(orbite_parcourue, {color: 'green'}).addTo(geo);
+                    orbite_future = []
                    
                 })
         // Intervalle de 4 secondes
-                , 4000);
-        }
+                ,4000);
+    }
     }
 }).mount("#trouver");
