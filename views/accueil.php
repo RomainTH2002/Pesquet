@@ -38,9 +38,9 @@
     </div>
  <div>
  
- <center><img id="test" src={{this.orthophotoUrl}}/><strong>{{this.msg}}</strong><p>{{this.orthophotoUrl}}</p></center>
+ <center><strong>{{this.msg}}</strong></center>
 
-    <button type="button" class="btn btn-primary" id="localise" @click="pointISS">Afficher Thomas Pesquet </button>
+    <center><button type="button" class="btn btn-primary" id="localise" @click="pointISS">Afficher Thomas Pesquet </button></center>
   </div>
 </div>
   <center><div id="map"></div></center>
