@@ -29,9 +29,9 @@
        
         <center><legend>Zone de Tweet</legend></center>
         <form @submit.prevent="submitTweet">
-          <label for="zoomSmartphone"><input type="radio" id="zoomSmartphone" name="zoomLevel" value="7" v-model="zoomLevel"> Smartphone</label><p></p>
-          <label for="zoomReflex"><input type="radio" id="zoomReflex" name="zoomLevel" value="10" v-model="zoomLevel"> Réflex</label><p></p>
-          <label for="zoomTeleobjectif"><input type="radio" id="zoomTeleobjectif" name="zoomLevel" value="13" v-model="zoomLevel"> Téléobjectif</label>
+          <label for="zoomSmartphone">&nbsp<input type="radio" id="zoomSmartphone" name="zoomLevel" value="7" v-model="zoomLevel" checked> Smartphone</label><p></p>
+          <label for="zoomReflex">&nbsp<input type="radio" id="zoomReflex" name="zoomLevel" value="10" v-model="zoomLevel"> Réflex</label><p></p>
+          <label for="zoomTeleobjectif">&nbsp<input type="radio" id="zoomTeleobjectif" name="zoomLevel" value="13" v-model="zoomLevel"> Téléobjectif</label>
           <button id="envoietweet" class="btn btn-success" >Tweete comme Pesquet</button>
         </form>
       </div>
