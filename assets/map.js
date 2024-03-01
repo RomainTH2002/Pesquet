@@ -25,15 +25,21 @@ Vue.createApp({
             long: 0,
             lat: 0,
             message : 'Je suis là !',
-            marker: null // Ajoutez cette propriété pour stocker la référence au marqueur
+            marker: null, // Ajoutez cette propriété pour stocker la référence au marqueur
+            msg : '',
+            orthophotoUrl : '',
+            suiviISS : true
         }
     },
     methods: {
         // Méthode récupérant les longitude et latitude depuis l'API 
+       
         pointISS() {
             let button_affiche = document.getElementById('localise');
             button_affiche.style.visibility = 'hidden'; 
-       
+           
+           
+           
             setInterval(() =>
             fetch(url_api)
                 .then(response => response.json())
@@ -47,7 +53,15 @@ Vue.createApp({
                     orbite_parcourue.push(coordonnees);
                     geo.clearLayers();
                     // focus sur l'ISS
-                    //map.setView([this.long-500,this.lat], 3);
+                    if (this.suiviISS) {
+                        // Si la case est cochée, exécutez une action
+                        map.dragging.disable();
+                        map.setView([this.lat,this.long], 6);
+                    } else {
+                        // Si la case est décochée, vous pouvez réactiver le déplacement de la carte ou exécuter d'autres actions
+                        map.dragging.enable();
+                    }
+                                  
                     fetch(url_orbit)
                     .then(response => response.json())
                     .then(jason => {
@@ -58,8 +72,9 @@ Vue.createApp({
                     })
                     // Insertion du marqueur  
                     this.marker = L.marker([this.lat, this.long] , {icon: satIcone}).addTo(geo)
-                        .bindPopup('<center><img id="pesquet" src="assets/pesquet.jpeg"/></center>')
-                        .openPopup();
+                    .bindPopup(`<center><img src="assets/pesquet.jpeg" width="120" height="80" /></center>`)
+                    .openPopup();
+                        
                     L.polyline(orbite_future, {color: 'red',width: 4}).addTo(geo);
                     L.polyline(orbite_parcourue, {color: 'green'}).addTo(geo);
                     orbite_future = []
@@ -77,12 +92,14 @@ Vue.createApp({
             const zoomLevel = this.zoomLevel;
             const latitude = this.lat;
             const longitude = this.long;
+            let mtretweet = true;
             const orthophotoUrl = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoomLevel}/${latitude}/${longitude}`;
-        
+            this.orthophotoUrl = orthophotoUrl; 
             // Générer l'URL pour l'appel à l'API Geonames
             const username = 'eric'; // Mdr je vole le compte d'un random
             const geonamesUrl = `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${latitude}&lng=${longitude}&username=${username}`;
-        
+            const geoceanurl = `http://api.geonames.org/extendedFindNearbyJSON?lat=${latitude}&lng=${longitude}&username=${username}`
+            console.log(geonamesUrl);
             // Faire un appel AJAX vers l'API Geonames pour obtenir les informations sur le lieu
             fetch(geonamesUrl)
                 .then(response => response.json())
@@ -93,14 +110,26 @@ Vue.createApp({
                         const placeName = data.geonames[0].toponymName || data.geonames[0].name;
                         const countryName = data.geonames[0].countryName;
                         const msg = `Hello ${placeName} #${countryName}`;
+                        this.msg = msg;
+
+                    } else { 
+                        fetch(geoceanurl)
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('ocean');
+                                const oceaname = data.ocean.name;
+                                const msg = `On coule pas ici #${oceaname}`;
+                                this.msg = msg;
+                            })
                         
-                        if (this.marker) { // Utilisez this.marker pour accéder à l'instance de marqueur
-                            console.log('réponse_3');
-                            this.marker.setPopupContent(`<center><img id="photo" src="${orthophotoUrl}"/></center><center><strong>${msg}</strong></center>`)
-                                        .openPopup();
-                        }
 
                     }
+                    if (this.marker) { // Utilisez this.marker pour accéder à l'instance de marqueur
+                        console.log('réponse_3');
+                        this.marker.setPopupContent(`<center><img id="photo" src="${orthophotoUrl}"/></center>`)
+                                    .openPopup();
+                    }
+                    
                 })
                 .catch(error => {
                     console.error('Error fetching geonames data:', error);

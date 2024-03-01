@@ -17,26 +17,32 @@
       <fieldset>
         <center>
           <legend>Suivi de l'ISS</legend>
-          <input type="checkbox" id="suiviISS" value="SuiviISS" />
+          <input type="checkbox" id="suiviISS" value="SuiviISS" v-model="suiviISS" checked/>
           <label for="suiviISS">&nbsp Zoomer sur l'ISS</label>
           <h6> longitude :  {{this.long}} | latitude {{this.lat}}</h6>
         </center>
       </fieldset>
-      
+      <div>
+        
+      </div>
       <div id="zonetweet">
+       
         <center><legend>Zone de Tweet</legend></center>
         <form @submit.prevent="submitTweet">
-          <label for="zoomSmartphone"><input type="radio" id="zoomSmartphone" name="zoomLevel" value="7" v-model="zoomLevel"> Smartphone</label>
-          <label for="zoomReflex"><input type="radio" id="zoomReflex" name="zoomLevel" value="10" v-model="zoomLevel"> Réflex</label>
+          <label for="zoomSmartphone"><input type="radio" id="zoomSmartphone" name="zoomLevel" value="7" v-model="zoomLevel"> Smartphone</label><p></p>
+          <label for="zoomReflex"><input type="radio" id="zoomReflex" name="zoomLevel" value="10" v-model="zoomLevel"> Réflex</label><p></p>
           <label for="zoomTeleobjectif"><input type="radio" id="zoomTeleobjectif" name="zoomLevel" value="13" v-model="zoomLevel"> Téléobjectif</label>
-          <textarea id="textweet" v-model="message" ></textarea>
           <button id="envoietweet" class="btn btn-success" >Tweete comme Pesquet</button>
         </form>
       </div>
     </div>
+ <div>
  
+ <center><img id="test" src={{this.orthophotoUrl}}/><strong>{{this.msg}}</strong><p>{{this.orthophotoUrl}}</p></center>
+
     <button type="button" class="btn btn-primary" id="localise" @click="pointISS">Afficher Thomas Pesquet </button>
   </div>
+</div>
   <center><div id="map"></div></center>
   <script src="https://unpkg.com/vue@3.2.21/dist/vue.global.prod.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
