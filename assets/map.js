@@ -105,8 +105,6 @@ Vue.createApp({
             const latitude = this.lat;
             const longitude = this.long;
             let mtretweet = true;
-            const orthophotoUrl = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoomLevel}/${latitude}/${longitude}`;
-            this.orthophotoUrl = orthophotoUrl; 
             // Générer l'URL pour l'appel à l'API Geonames
             const username = 'eric'; // Mdr je vole le compte d'un random
             const geonamesUrl = `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${latitude}&lng=${longitude}&username=${username}`;
@@ -117,15 +115,23 @@ Vue.createApp({
             let d = Math.PI / 180;
             let max = 1 - 1E-15;
             let sin = Math.max(Math.min(Math.sin(this.lat * d), max), -max);
-            let scale = 256 * Math.pow(2, zoomLevel);
+            let scale = 256 * Math.pow(2, this.zoomLevel);
             let point = {
                       x: R * this.long * d,
                       y: R * Math.log((1 + sin) / (1 - sin)) / 2
                     };
-                  
+            testpx = point.x
+            test2 = sphericalScale * testpx + 0.5
+            testx = Math.floor(scale*test2)/256
+            testpy = point.y
+            test3 = -sphericalScale * testpy + 0.5
+            testy = Math.floor(scale*test3)/256
             //point.x = tiled(scale * (sphericalScale * point.x + 0.5));
             //point.y = tiled(scale * (-sphericalScale * point.y + 0.5));
-            console.log(point);
+            console.log(testx);
+            console.log(testy);
+            const orthophotoUrl = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoomLevel}/${testy}/${testx}`;
+            this.orthophotoUrl = orthophotoUrl; 
             // Faire un appel AJAX vers l'API Geonames pour obtenir les informations sur le lieu
             fetch(geonamesUrl)
                 .then(response => response.json())
