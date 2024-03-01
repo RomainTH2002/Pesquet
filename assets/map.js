@@ -55,6 +55,7 @@ Vue.createApp({
                     this.long = long_iss;
                     this.lat = lat_iss;
                     let coordonnees = [this.lat, this.long];
+                   
                     // traçage de l'orbite 
                     orbite_parcourue.push(coordonnees);
                     geo.clearLayers();
@@ -84,13 +85,18 @@ Vue.createApp({
                     L.polyline(orbite_future, {color: 'red',width: 4}).addTo(geo);
                     L.polyline(orbite_parcourue, {color: 'green'}).addTo(geo);
                     orbite_future = []
+
+                
                 })
+
+                
         // Intervalle de 4 secondes
                 ,4000);
         },
 
         // Méthode d'affichage de la photo en tweet
         submitTweet(event) {
+            
             // Empêcher l'envoi par défaut du formulaire
             event.preventDefault();
             console.log('réponse');
@@ -106,6 +112,20 @@ Vue.createApp({
             const geonamesUrl = `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${latitude}&lng=${longitude}&username=${username}`;
             const geoceanurl = `http://api.geonames.org/extendedFindNearbyJSON?lat=${latitude}&lng=${longitude}&username=${username}`
             console.log(geonamesUrl);
+            const R = 6378137;
+            let sphericalScale = 0.5 / (Math.PI * R);
+            let d = Math.PI / 180;
+            let max = 1 - 1E-15;
+            let sin = Math.max(Math.min(Math.sin(this.lat * d), max), -max);
+            let scale = 256 * Math.pow(2, zoomLevel);
+            let point = {
+                      x: R * this.long * d,
+                      y: R * Math.log((1 + sin) / (1 - sin)) / 2
+                    };
+                  
+            //point.x = tiled(scale * (sphericalScale * point.x + 0.5));
+            //point.y = tiled(scale * (-sphericalScale * point.y + 0.5));
+            console.log(point);
             // Faire un appel AJAX vers l'API Geonames pour obtenir les informations sur le lieu
             fetch(geonamesUrl)
                 .then(response => response.json())
